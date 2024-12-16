@@ -12,7 +12,7 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
 {
     public partial class PlannerForum : Form
     {
-
+        //pushed
         int ID;
         int UserID;
         string Username;
