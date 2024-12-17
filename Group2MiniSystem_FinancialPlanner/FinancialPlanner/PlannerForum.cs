@@ -30,6 +30,7 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
         LoginForm loginForm = new LoginForm();
         DatabaseHandler databaseHandler =  new DatabaseHandler();
         LoginHandler loginHandler = new LoginHandler();
+
         public PlannerForum()
         {
             InitializeComponent();
@@ -40,9 +41,7 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             cbTimeOption.Items.Add("Months");
             cbTimeOption.Items.Add("Years");
 
-            labelINSERT.Text = loginForm.getUsername();
-           
-
+            labelINSERT.Text = loginHandler.getUsername();
 
         }
 
@@ -58,34 +57,37 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             return ID;
         }
 
-
-
         private void button1_Click(object sender, EventArgs e)
         {
-            TotalIncome = Convert.ToInt64(txtboxTotalIncome.Text);
-            TotalExpenses = Convert.ToInt64(txtboxTotalExpenses.Text);
-            SavingsGoal = Convert.ToInt64(txtboxSavingsGoal.Text);
-            TimeFrame = Convert.ToInt32(txtboxTimeFrame.Text);
-            TimeOption = cbTimeOption.Text;
-            FoodAllocation = Convert.ToInt64(txtFoodAllocation.Text);
-            ElectricWaterBill = Convert.ToInt64(txtElectricWaterBill.Text);
-            EmergencyFund = Convert.ToInt64(txtEmergencyFund.Text);
 
+            try {
+                TotalIncome = Convert.ToInt64(txtboxTotalIncome.Text);
+                TotalExpenses = Convert.ToInt64(txtboxTotalExpenses.Text);
+                SavingsGoal = Convert.ToInt64(txtboxSavingsGoal.Text);
+                TimeFrame = Convert.ToInt32(txtboxTimeFrame.Text);
+                TimeOption = cbTimeOption.Text;
+                FoodAllocation = Convert.ToInt64(txtFoodAllocation.Text);
+                ElectricWaterBill = Convert.ToInt64(txtElectricWaterBill.Text);
+                EmergencyFund = Convert.ToInt64(txtEmergencyFund.Text);
 
-            databaseHandler.getCurrentUsername();
+                string Username = loginHandler.getUsername();
 
-            Username = loginForm.getUsername().ToString();
+                namePlanner.ShowDialog();
 
+                PlanName = namePlanner.getPlanName();
+                UserID = loginHandler.getcurrentID();
 
-            namePlanner.ShowDialog();
+                //push userinputs to databse
+                databaseHandler.pushData(plusID(), UserID, Username, PlanName, TotalIncome,
+                    TotalExpenses, SavingsGoal, TimeOption, TimeFrame, FoodAllocation, ElectricWaterBill, EmergencyFund);
 
-            PlanName = namePlanner.getPlanName();
-            UserID = loginHandler.getcurrentID();
+                ViewData viewData = new ViewData();
+                viewData.Show();
 
-            databaseHandler.pushData(plusID(), UserID, Username, PlanName, TotalIncome, TotalExpenses, SavingsGoal, TimeOption, TimeFrame, FoodAllocation, ElectricWaterBill, EmergencyFund);
-
-            ViewData viewData = new ViewData();
-            viewData.Show();
+            } catch (Exception E)
+            {
+                MessageBox.Show("Please Complete Inputs.");
+            } 
         }
     }
 }

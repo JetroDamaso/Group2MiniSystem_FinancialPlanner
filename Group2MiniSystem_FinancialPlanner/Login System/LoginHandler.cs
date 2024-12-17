@@ -22,8 +22,8 @@ namespace Group2MiniSystem_FinancialPlanner
         public BindingSource bindingSource;
 
         //Credentials Handler
-        private string Username;
-        private string Password;
+        private static string Username;
+        private static string Password;
         private int UserID, currentUserID;
         private List<String> UsernameBank = new List<string>();
         private List<String> PasswordBank = new List<string>();
@@ -87,8 +87,8 @@ namespace Group2MiniSystem_FinancialPlanner
         public bool Login(string username, string password) 
         {
 
-            this.Username = username;
-            this.Password = password;
+            Username = username;
+            Password = password;
 
             if (UsernameBank.Contains(username) && PasswordBank.Contains(password))
             {
@@ -143,8 +143,8 @@ namespace Group2MiniSystem_FinancialPlanner
 
             sqlConnect.Open();
             sqlCommand = new SqlCommand(sqlQuerry, sqlConnect);
-            sqlCommand.Parameters.Add("@Username", SqlDbType.VarChar).Value = "admin";
-            sqlCommand.Parameters.Add("@Password", SqlDbType.VarChar).Value = "admin";
+            sqlCommand.Parameters.Add("@Username", SqlDbType.VarChar).Value = Username;
+            sqlCommand.Parameters.Add("@Password", SqlDbType.VarChar).Value = Password;
 
 
             SqlDataReader reader = sqlCommand.ExecuteReader();
@@ -166,12 +166,12 @@ namespace Group2MiniSystem_FinancialPlanner
 
         public String getUsername()
         {
-            return this.Username;
+            return Username;
         }
 
         public String getPassword()
         {
-            return this.Password;
+            return Password;
         }
 
     }

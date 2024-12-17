@@ -43,16 +43,5 @@ namespace Group2MiniSystem_FinancialPlanner
             
         }
 
-        public string getUsername()
-        {
-            Username = textBox1.Text;
-            return Username;
-        }
-
-        public string getPassword()
-        {
-            Password = textBox2.Text;
-            return Password;
-        }
     }
 }
