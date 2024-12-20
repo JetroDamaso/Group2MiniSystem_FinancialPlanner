@@ -1,10 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
 {
@@ -28,14 +23,12 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
         private static List<String> PlanNameBank = new List<string>();
         string connectionString;
 
+        //Class Objects
         LoginForm loginForm = new LoginForm();
         LoginHandler loginHandler = new LoginHandler();
         ConnectionString connectString = new ConnectionString();
 
-        private string ViewClubMembers = "SELECT ID, UserID, Username, Plan_Name, Total_Income, Total_Expenses, Savings_Goal, Time_Option, Time_Frame," +
-            "FoodAllocation, ElectricWater_Bill, Emergency_Fund FROM FinancialPlans";
-
-
+        //Initiates Database Handlers and Connections
         public DatabaseHandler()
         {
             connectionString = connectString.getConnectString();
@@ -46,18 +39,7 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             bindingSource = new BindingSource();
         }
 
-        public bool DisplayList()
-        {
-            dataTable = new DataTable();
-
-            sqlAdapter = new SqlDataAdapter(ViewClubMembers, sqlConnect);
-
-            dataTable.Clear();
-            sqlAdapter.Fill(dataTable);
-            bindingSource.DataSource = dataTable;
-            return true;
-        }
-
+        //Inserts user inputs to database
         public bool pushData(int ID, int UserID, string Username, string PlanName, double TotalIncome, double TotalExpenses, double SavingsGoal, string TimeOption, int TimeFrame, double FoodAllocation, double ElectricWaterBill, double EmergencyFund)
         {
             string sqlQuery = "INSERT INTO FinancialPlans VALUES(@ID, @UserID, @Username, @Plan_Name, @Total_Income," +
@@ -82,6 +64,7 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             return true;
         }
 
+        //Fetches data from database on selected User (current signed in user)
         public void getDatafromDatabase(int PlanID)
         {
             sqlConnect = new SqlConnection(connectionString);
@@ -111,30 +94,7 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             sqlConnect.Close();
         }
 
-
-        public void getCurrentID() //not used
-        {
-            LoginForm loginForm = new LoginForm();
-            sqlConnect = new SqlConnection(connectionString);
-            string sqlQuerry = "SELECT ID FROM Credentials WHERE Username = @Username AND Password = @Password";
-
-            sqlConnect.Open();
-            sqlCommand = new SqlCommand(sqlQuerry, sqlConnect);
-            sqlCommand.Parameters.Add("@Username", SqlDbType.VarChar).Value = "admin";
-            sqlCommand.Parameters.Add("@Password", SqlDbType.VarChar).Value = "admin";
-
-
-            SqlDataReader reader = sqlCommand.ExecuteReader();
-            if (reader.Read())
-            {
-                currentUserID = Convert.ToInt32(reader.GetValue(0).ToString());
-            }
-
-            sqlConnect.Close();
-        }
-
-
-        //set FINANCIAL PLAN ID++
+        //Selects latest ID from the database
         public void setID()
         {
             sqlConnect = new SqlConnection(connectionString);
@@ -151,12 +111,8 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             sqlConnect.Close();
         }
 
-        public int getID()//working
-        {
-            setID();
-            return LatestID;
-        }
 
+        //Fetches plan names on current user, stores it in List
         public void setPlanName()
         {
             sqlConnect = new SqlConnection(connectionString);
@@ -175,6 +131,7 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             sqlConnect.Close();
         }
 
+        //fetches planID based on the Plan Name
         public void setPlanID(string PlanName)
         {
             sqlConnect = new SqlConnection(connectionString);
@@ -193,22 +150,12 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             sqlConnect.Close();
         }
 
-        public void setSelectedPlanID(int PlanID) //continue here
+
+        //Return blocks
+        public int getID()
         {
-            sqlConnect = new SqlConnection(connectionString);
-            string sqlQuerry = "SELECT ID FROM FinancialPlans WHERE UserID = @UserID";
-
-            sqlConnect.Open();
-
-            sqlCommand = new SqlCommand(sqlQuerry, sqlConnect);
-            sqlCommand.Parameters.Add("@UserID", SqlDbType.Int).Value = PlanID;
-            SqlDataReader reader = sqlCommand.ExecuteReader();
-            while (reader.Read())
-            {
-                SelectedPlanID = reader.GetInt32(0);
-            }
-
-            sqlConnect.Close();
+            setID();
+            return LatestID;
         }
 
         public int getPlanID(string PlanName)
@@ -216,13 +163,6 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             setPlanID(PlanName);
             return PlanID;
         }
-
-        public int getSelectedPlanID(int PlanID)
-        {
-            setSelectedPlanID(PlanID);
-            return PlanID;
-        }
-
 
         public List<string> getPlanNames()
         {

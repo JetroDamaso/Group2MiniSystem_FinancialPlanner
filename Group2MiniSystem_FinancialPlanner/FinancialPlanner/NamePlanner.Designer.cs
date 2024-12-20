@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NamePlanner));
             label1 = new Label();
             txtPlanName = new TextBox();
             buttonSave = new Button();
@@ -68,14 +67,14 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImage = Properties.Resources.SMALL_BOX;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(435, 197);
             Controls.Add(buttonSave);
             Controls.Add(txtPlanName);
             Controls.Add(label1);
             Name = "NamePlanner";
-            Text = "NamePlanner";
+            Text = "Name Plan";
             ResumeLayout(false);
             PerformLayout();
         }

@@ -1,39 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Group2MiniSystem_FinancialPlanner
+﻿namespace Group2MiniSystem_FinancialPlanner
 {
     internal class Formula
     {
-        public double calculateSavings(double ti, double te)
+        // Calculates savings after expenses
+        public double CalculateSavings(double totalIncome, double totalExpenses)
         {
-            double res = ti -= te;
-            return res;
+            double savings = totalIncome - totalExpenses; // S = TI - TE
+            return savings;
         }
 
-        public double calculateGoal(double sg, double t)
+        // Calculates savings contribution per period
+        public double CalculateGoal(double savingsGoal, double periods)
         {
-            double res = sg /= t;
-            return res;
+            if (periods <= 0)
+                throw new ArgumentException("Timeframe must be greater than zero.");
+
+            double savingsPerPeriod = savingsGoal / periods; // SP = SG / T
+            return savingsPerPeriod;
         }
 
-        public double allocateBudgetFood(double ti, double cp)
+        // Allocates budget based on category percentage
+        public static double AllocateBudget(double totalIncome, double categoryPercentage)
         {
-            double res = ti *= (cp / 0.20);
-            return res;
+            if (categoryPercentage < 0 || categoryPercentage > 100)
+                throw new ArgumentException("Category percentage must be between 0 and 100.");
+
+            double allocatedBudget = totalIncome * (categoryPercentage / 100); // AB = TI × CP / 100
+            return allocatedBudget;
         }
-        public double allocateBudgetElectricWater(double ti, double cp)
+
+        // Distributes the budget among categories'Total percentage allocation must equal 100
+        public (double Food, double ElectricWater, double Emergency) DistributeBudget(
+            double totalIncome,
+            double foodPercentage,
+            double electricWaterPercentage,
+            double emergencyPercentage)
         {
-            double res = ti *= (cp / 0.0667);
-            return res;
+            /*
+            // Validate total percentage
+            double totalPercentage = foodPercentage + electricWaterPercentage + emergencyPercentage;
+            if (totalPercentage != 100)
+                throw new ArgumentException("Total percentage allocation must equal 100%.");
+            */
+
+            // Calculate allocated budgets
+            double foodBudget = AllocateBudget(totalIncome, foodPercentage);
+            double electricWaterBudget = AllocateBudget(totalIncome, electricWaterPercentage);
+            double emergencyBudget = AllocateBudget(totalIncome, emergencyPercentage);
+
+            return (foodBudget, electricWaterBudget, emergencyBudget);
         }
-        public double allocateBudgetEmergency(double ti, double cp)
-        {
-            double res = ti *= (cp / 0.10);
-            return res;
-        }
+
     }
 }

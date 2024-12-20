@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
+﻿namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
 {
     public partial class PlannerForum : Form
     {
-        //pushed
+
         int ID;
         int UserID;
         string Username;
@@ -26,6 +16,7 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
         double ElectricWaterBill;
         double EmergencyFund;
 
+        //Class Objects
         NamePlanner namePlanner = new NamePlanner();
         LoginForm loginForm = new LoginForm();
         DatabaseHandler databaseHandler = new DatabaseHandler();
@@ -37,20 +28,14 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
         {
             InitializeComponent();
 
-
+            //Adds information to Combo Box
             cbTimeOption.Items.Add("Days");
             cbTimeOption.Items.Add("Weeks");
             cbTimeOption.Items.Add("Months");
             cbTimeOption.Items.Add("Years");
-
-
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        //Fetches lastest Plan ID++
         public int plusID()
         {
             this.ID = databaseHandler.getID();
@@ -58,9 +43,9 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             return ID;
         }
 
+        //Save to Account Button
         private void button1_Click(object sender, EventArgs e)
         {
-
             try
             {
                 TotalIncome = Convert.ToDouble(txtboxTotalIncome.Text);
@@ -83,16 +68,15 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
                 databaseHandler.pushData(plusID(), UserID, Username, PlanName, TotalIncome,
                     TotalExpenses, SavingsGoal, TimeOption, TimeFrame, FoodAllocation, ElectricWaterBill, EmergencyFund);
 
-                ViewData viewData = new ViewData();
-                viewData.Show();
 
             }
-            catch (Exception E)
+            catch (Exception)
             {
                 MessageBox.Show("Please Complete Inputs.");
             }
         }
 
+        //Open Plans Button
         private void button2_Click(object sender, EventArgs e)
         {
             PlanOpener planOpener = new PlanOpener();
@@ -106,8 +90,6 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             txtElectricWaterBill.Clear();
             txtEmergencyFund.Clear();
 
-
-
             txtboxTotalIncome.Text = Convert.ToString(databaseHandler.getTotalIncome(planOpener.getSelectedPlanID()));
             txtboxTotalExpenses.Text = Convert.ToString(databaseHandler.getTotalExpenses(planOpener.getSelectedPlanID()));
             txtboxSavingsGoal.Text = Convert.ToString(databaseHandler.getSavingsGoal(planOpener.getSelectedPlanID()));
@@ -116,9 +98,9 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             txtFoodAllocation.Text = Convert.ToString(databaseHandler.getFoodAllocation(planOpener.getSelectedPlanID()));
             txtElectricWaterBill.Text = Convert.ToString(databaseHandler.getElectricWaterBill(planOpener.getSelectedPlanID()));
             txtEmergencyFund.Text = Convert.ToString(databaseHandler.getEmergencyFund(planOpener.getSelectedPlanID()));
-
         }
 
+        //Run Button
         private void buttonRun_Click(object sender, EventArgs e)
         {
             try
@@ -126,39 +108,53 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
                 double ti = Convert.ToDouble(txtboxTotalIncome.Text);
                 double te = Convert.ToDouble(txtboxTotalExpenses.Text);
                 double sg = Convert.ToDouble(txtboxSavingsGoal.Text);
-                double t;
+                double t = Convert.ToInt32(txtboxTimeFrame.Text);
                 double cpFood = Convert.ToDouble(txtFoodAllocation.Text);
                 double cpElectricWater = Convert.ToDouble(txtElectricWaterBill.Text);
                 double cpEmergency = Convert.ToDouble(txtEmergencyFund.Text);
 
-                if (cbTimeOption.Text.Equals("Weeks"))
-                {
-                    t = Convert.ToInt32(txtboxTimeFrame.Text) * 7;
-                }
-                if (cbTimeOption.Text.Equals("Months"))
-                {
-                    t = Convert.ToInt32(txtboxTimeFrame.Text) * 30;
-                }
-                if (cbTimeOption.Text.Equals("Years"))
-                {
-                    t = Convert.ToInt32(txtboxTimeFrame.Text) * 365;
-                }
-                else
-                {
-                    t = Convert.ToInt32(txtboxTimeFrame.Text);
-                }
+ 
+                var budgetAllocations = formula.DistributeBudget(ti, cpFood, cpElectricWater, cpEmergency);
+                
+                lblFoodAllocation.Text = Convert.ToString(Math.Round(budgetAllocations.Food,2));
+                lblElectricWaterAllocation.Text = Convert.ToString(Math.Round(budgetAllocations.ElectricWater,2));
+                lblEmergencyFundAllocation.Text = Convert.ToString(Math.Round(budgetAllocations.Emergency,2));
+  
+                lblSavings.Text = Convert.ToString(Math.Round(formula.CalculateSavings(ti, te), 2));
+                lblSavingsPerPeriod.Text = Convert.ToString(Math.Round(formula.CalculateGoal(sg, t), 2));
+    
 
-                lblSavings.Text = Convert.ToString(formula.calculateSavings(ti, te));
-                lblSavingsPerPeriod.Text = Convert.ToString(formula.calculateGoal(sg, t));
-
-                lblFoodAllocation.Text = Convert.ToString(formula.allocateBudgetFood(sg, cpFood));
-                lblElectricWaterAllocation.Text = Convert.ToString(formula.allocateBudgetElectricWater(sg, cpElectricWater));
-                lblEmergencyFundAllocation.Text = Convert.ToString(formula.allocateBudgetEmergency(sg, cpEmergency));
-            }
-            catch (Exception E)
+      }
+            catch (Exception)
             {
                 MessageBox.Show("Please Complete Inputs.");
             }
+        }
+
+
+        //Reset Button
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            txtboxSavingsGoal.Clear();
+            txtboxTimeFrame.Clear();
+            txtboxTotalExpenses.Clear();
+            txtboxTotalIncome.Clear();
+            txtElectricWaterBill.Clear();
+            txtEmergencyFund.Clear();
+            txtFoodAllocation.Clear();
+
+            lblElectricWaterAllocation.Text = "";
+            lblEmergencyFundAllocation.Text = "";
+            lblFoodAllocation.Text = "";
+            lblSavings.Text = "";
+            lblSavingsPerPeriod.Text = "";
+        }
+
+        //Go back to Login Link
+        private void label1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            loginForm.ShowDialog();
 
         }
     }

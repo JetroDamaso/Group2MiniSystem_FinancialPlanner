@@ -13,7 +13,7 @@ namespace Group2MiniSystem_FinancialPlanner
             InitializeComponent();
         }
 
-
+        //Login Button. If credentials are wrong, send error message.
         private void button1_Click(object sender, EventArgs e)
         {
             Username = textBox1.Text;
@@ -21,7 +21,7 @@ namespace Group2MiniSystem_FinancialPlanner
 
             loginHandler.getCredentials();
             bool loginBool = loginHandler.Login(Username, Password);
-            
+
             if (loginBool == true)
             {
                 PlannerForum plannerForum = new PlannerForum();
@@ -34,13 +34,13 @@ namespace Group2MiniSystem_FinancialPlanner
             }
         }
 
+        //Register link.
         private void label5_Click(object sender, EventArgs e)
         {
             RegisterForm registerForm = new RegisterForm();
 
             this.Hide();
             registerForm.ShowDialog();
-            
         }
 
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
+﻿namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
 {
     internal class ConnectionString
     {
@@ -17,6 +11,5 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             ConnectString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\Jetro\source\repos\Group2MiniSystem_FinancialPlanner\Group2MiniSystem_FinancialPlanner\Credentials Database\CredentialsDatabase.mdf"";Integrated Security=True";
             return ConnectString;
         }
-
     }
 }

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             label1 = new Label();
             label2 = new Label();
             buttonLogin = new Button();
@@ -130,7 +129,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImage = Properties.Resources.SMALL_BOX;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(635, 259);
             Controls.Add(label5);
@@ -142,7 +141,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "LoginForm";
-            Text = "Form1";
+            Text = "Financial Planner";
             ResumeLayout(false);
             PerformLayout();
         }

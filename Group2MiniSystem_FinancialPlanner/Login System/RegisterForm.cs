@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Group2MiniSystem_FinancialPlanner
+﻿namespace Group2MiniSystem_FinancialPlanner
 {
     public partial class RegisterForm : Form
     {
@@ -21,6 +11,7 @@ namespace Group2MiniSystem_FinancialPlanner
             InitializeComponent();
         }
 
+        //Select latest User ID++
         public int plusID()
         {
             this.ID = loginHandler.getID();
@@ -28,6 +19,7 @@ namespace Group2MiniSystem_FinancialPlanner
             return ID;
         }
 
+        //Register Button
         private void buttonRegister_Click(object sender, EventArgs e)
         {
             Username = textBoxUsername.Text;
@@ -39,12 +31,12 @@ namespace Group2MiniSystem_FinancialPlanner
             MessageBox.Show("Register Success!");
         }
 
+        //Go back to login
         private void label5_Click(object sender, EventArgs e)
         {
             LoginForm loginForm = new LoginForm();
             this.Hide();
             loginForm.ShowDialog();
-            
         }
     }
 }

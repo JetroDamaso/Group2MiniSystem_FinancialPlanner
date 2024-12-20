@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegisterForm));
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
@@ -116,7 +115,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImage = Properties.Resources.SMALL_BOX;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(635, 263);
             Controls.Add(label5);

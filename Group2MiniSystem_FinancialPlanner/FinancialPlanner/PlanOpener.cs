@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
 
 namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
 {
@@ -36,7 +28,6 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
 
         private void InitializeComponent()
         {
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(PlanOpener));
             cbSelectPlan = new ComboBox();
             button1 = new Button();
             label1 = new Label();
@@ -75,13 +66,14 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             // 
             // PlanOpener
             // 
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImage = Properties.Resources.SMALL_BOX;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(435, 197);
             Controls.Add(label1);
             Controls.Add(button1);
             Controls.Add(cbSelectPlan);
             Name = "PlanOpener";
+            Text = "Open Plan";
             ResumeLayout(false);
             PerformLayout();
         }
