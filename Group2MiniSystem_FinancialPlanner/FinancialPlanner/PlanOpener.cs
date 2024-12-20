@@ -90,6 +90,7 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
         {
 
             PlanID = databaseHandler.getPlanID(cbSelectPlan.Text);
+            this.Close();
 
         }
 
