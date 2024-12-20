@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Group2MiniSystem_FinancialPlanner.FinancialPlanner;
+using Microsoft.Data.SqlClient;
 using Microsoft.Identity.Client;
 using System;
 using System.Collections;
@@ -22,23 +23,22 @@ namespace Group2MiniSystem_FinancialPlanner
         public BindingSource bindingSource;
 
         //Credentials Handler
-        private static string Username;
-        private static string Password;
-        private int UserID, currentUserID;
+        private static string Username, Password;
+        private static int UserID, currentUserID;
         private List<String> UsernameBank = new List<string>();
         private List<String> PasswordBank = new List<string>();
         string connectionString;
         private string ViewClubMembers = "SELECT ID, Username, Password FROM Credentials";
 
-        
+
 
         //Please update ConnectionString when opening from different computer.
-        
+        ConnectionString connectString = new ConnectionString();
 
 
         public LoginHandler()
         {
-            connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\Jetro\source\repos\Group2MiniSystem_FinancialPlanner\Group2MiniSystem_FinancialPlanner\Credentials Database\CredentialsDatabase.mdf"";Integrated Security=True";
+            connectionString = connectString.getConnectString();
 
             sqlConnect = new SqlConnection();
             sqlConnect.ConnectionString = connectionString;
@@ -49,19 +49,28 @@ namespace Group2MiniSystem_FinancialPlanner
 
 
         //REGISTER
-        public bool pushCredentials(int ID, string username, string password)
+        public void pushCredentials(int ID, string username, string password)
         {
+            try {
 
-            string sqlQuery = "INSERT INTO Credentials VALUES(@Id, @Username, @Password)";
-            sqlCommand = new SqlCommand(sqlQuery, sqlConnect);
-            sqlCommand.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
-            sqlCommand.Parameters.Add("@Username", SqlDbType.VarChar).Value = username;
-            sqlCommand.Parameters.Add("@Password", SqlDbType.VarChar).Value = password;
+                ID = ID;
+                Username = username;
+                Password = password;
 
-            sqlConnect.Open();
-            sqlCommand.ExecuteNonQuery();
-            sqlConnect.Close();
-            return true;
+                string sqlQuery = "INSERT INTO Credentials VALUES(@Id, @Username, @Password)";
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnect);
+                sqlCommand.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
+                sqlCommand.Parameters.Add("@Username", SqlDbType.VarChar).Value = username;
+                sqlCommand.Parameters.Add("@Password", SqlDbType.VarChar).Value = password;
+
+                sqlConnect.Open();
+                sqlCommand.ExecuteNonQuery();
+                sqlConnect.Close();  
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show("Please Complete Inputs.");
+            }
         }
 
         //REGISTER & LOGIN
@@ -133,8 +142,6 @@ namespace Group2MiniSystem_FinancialPlanner
             return UserID;
         }
 
-
-
         public void getCurrentID()
         {
             LoginForm loginForm = new LoginForm();
@@ -150,13 +157,35 @@ namespace Group2MiniSystem_FinancialPlanner
             SqlDataReader reader = sqlCommand.ExecuteReader();
             if (reader.Read())
             {
-               currentUserID = Convert.ToInt32(reader.GetValue(0).ToString());
+                currentUserID = Convert.ToInt32(reader.GetValue(0).ToString());
             }
 
             sqlConnect.Close();
         }
 
-   
+        public void getCurrentID(string Username, string Password)
+        {
+            LoginForm loginForm = new LoginForm();
+            sqlConnect = new SqlConnection(connectionString);
+            string sqlQuerry = "SELECT ID FROM Credentials WHERE Username = @Username AND Password = @Password";
+
+            sqlConnect.Open();
+            sqlCommand = new SqlCommand(sqlQuerry, sqlConnect);
+            sqlCommand.Parameters.Add("@Username", SqlDbType.VarChar).Value = Username;
+            sqlCommand.Parameters.Add("@Password", SqlDbType.VarChar).Value = Password;
+
+
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            if (reader.Read())
+            {
+                currentUserID = Convert.ToInt32(reader.GetValue(0).ToString());
+            }
+
+            sqlConnect.Close();
+        }
+
+        
+
 
         public int getcurrentID()
         {
@@ -173,6 +202,13 @@ namespace Group2MiniSystem_FinancialPlanner
         {
             return Password;
         }
+
+        public int getPlanID()
+        {
+            getCurrentID(Username, Password);
+            return currentUserID;
+        }
+
 
     }
 }

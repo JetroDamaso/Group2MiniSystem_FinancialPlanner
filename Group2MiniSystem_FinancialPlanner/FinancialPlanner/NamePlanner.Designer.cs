@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NamePlanner));
             label1 = new Label();
             txtPlanName = new TextBox();
             buttonSave = new Button();
@@ -36,22 +37,26 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 9);
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Courier New", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = SystemColors.ControlLight;
+            label1.Location = new Point(94, 58);
             label1.Name = "label1";
-            label1.Size = new Size(68, 15);
+            label1.Size = new Size(77, 15);
             label1.TabIndex = 0;
             label1.Text = "Plan Name:";
             // 
             // txtPlanName
             // 
-            txtPlanName.Location = new Point(86, 6);
+            txtPlanName.Location = new Point(96, 76);
             txtPlanName.Name = "txtPlanName";
-            txtPlanName.Size = new Size(143, 23);
+            txtPlanName.Size = new Size(230, 23);
             txtPlanName.TabIndex = 1;
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(235, 6);
+            buttonSave.Font = new Font("Courier New", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonSave.Location = new Point(176, 105);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(75, 23);
             buttonSave.TabIndex = 2;
@@ -63,7 +68,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(317, 38);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(435, 197);
             Controls.Add(buttonSave);
             Controls.Add(txtPlanName);
             Controls.Add(label1);

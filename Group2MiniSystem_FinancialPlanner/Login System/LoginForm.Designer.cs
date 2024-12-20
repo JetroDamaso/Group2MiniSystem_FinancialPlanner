@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             label1 = new Label();
             label2 = new Label();
             buttonLogin = new Button();
@@ -41,18 +42,22 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(12, 9);
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Courier New", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Transparent;
+            label1.Location = new Point(244, 201);
             label1.Name = "label1";
-            label1.Size = new Size(168, 21);
+            label1.Size = new Size(147, 14);
             label1.TabIndex = 0;
             label1.Text = "Group 2 - MiniSystem";
             // 
             // label2
             // 
             label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(12, 30);
+            label2.ForeColor = SystemColors.ButtonFace;
+            label2.Location = new Point(178, 34);
             label2.Name = "label2";
             label2.Size = new Size(260, 32);
             label2.TabIndex = 1;
@@ -60,63 +65,74 @@
             // 
             // buttonLogin
             // 
-            buttonLogin.Location = new Point(197, 136);
+            buttonLogin.BackColor = Color.WhiteSmoke;
+            buttonLogin.Font = new Font("Courier New", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonLogin.Location = new Point(282, 151);
             buttonLogin.Name = "buttonLogin";
-            buttonLogin.Size = new Size(75, 23);
+            buttonLogin.Size = new Size(67, 19);
             buttonLogin.TabIndex = 2;
             buttonLogin.Text = "Login";
-            buttonLogin.UseVisualStyleBackColor = true;
+            buttonLogin.UseVisualStyleBackColor = false;
             buttonLogin.Click += button1_Click;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(81, 78);
+            textBox1.Location = new Point(204, 85);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(191, 23);
+            textBox1.Size = new Size(227, 23);
             textBox1.TabIndex = 3;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(81, 107);
+            textBox2.Location = new Point(205, 123);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(191, 23);
+            textBox2.Size = new Size(227, 23);
             textBox2.TabIndex = 4;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(12, 81);
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Courier New", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.Transparent;
+            label3.Location = new Point(202, 70);
             label3.Name = "label3";
-            label3.Size = new Size(63, 15);
+            label3.Size = new Size(70, 14);
             label3.TabIndex = 5;
             label3.Text = "Username:";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(15, 110);
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Courier New", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Transparent;
+            label4.Location = new Point(202, 110);
             label4.Name = "label4";
-            label4.Size = new Size(60, 15);
+            label4.Size = new Size(70, 14);
             label4.TabIndex = 6;
             label4.Text = "Password:";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = SystemColors.Highlight;
-            label5.Location = new Point(103, 140);
+            label5.BackColor = Color.Transparent;
+            label5.Font = new Font("Courier New", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.ForeColor = SystemColors.ButtonFace;
+            label5.Location = new Point(266, 176);
             label5.Name = "label5";
-            label5.Size = new Size(88, 15);
+            label5.Size = new Size(105, 14);
             label5.TabIndex = 7;
             label5.Text = "Create Account";
-            label5.Click += this.label5_Click;
+            label5.Click += label5_Click;
             // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(289, 168);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(635, 259);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);

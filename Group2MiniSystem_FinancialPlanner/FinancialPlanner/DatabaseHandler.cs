@@ -20,15 +20,17 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
         public BindingSource bindingSource;
 
         //Credentials Handler
-        private string Username, PlanName,  TimeOption;
-        private int ID, UserID, TimeFrame, LatestID, currentUserID;
-        private long TotalIncome, TotalExpenses, SavingsGoal, FoodAllocation, ElectricWaterBill, EmergencyFund;
-        private List<String> UsernameBank = new List<string>();
-        private List<String> PasswordBank = new List<string>();
+        private static string Username, PlanName, TimeOption;
+        private static int ID, UserID, TimeFrame, LatestID, currentUserID, PlanID, SelectedPlanID;
+        private static double TotalIncome, TotalExpenses, SavingsGoal, FoodAllocation, ElectricWaterBill, EmergencyFund;
+        private static List<String> UsernameBank = new List<string>();
+        private static List<String> PasswordBank = new List<string>();
+        private static List<String> PlanNameBank = new List<string>();
         string connectionString;
 
         LoginForm loginForm = new LoginForm();
         LoginHandler loginHandler = new LoginHandler();
+        ConnectionString connectString = new ConnectionString();
 
         private string ViewClubMembers = "SELECT ID, UserID, Username, Plan_Name, Total_Income, Total_Expenses, Savings_Goal, Time_Option, Time_Frame," +
             "FoodAllocation, ElectricWater_Bill, Emergency_Fund FROM FinancialPlans";
@@ -36,7 +38,7 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
 
         public DatabaseHandler()
         {
-            connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\Jetro\source\repos\Group2MiniSystem_FinancialPlanner\Group2MiniSystem_FinancialPlanner\Credentials Database\CredentialsDatabase.mdf"";Integrated Security=True";
+            connectionString = connectString.getConnectString();
 
             sqlConnect = new SqlConnection();
             sqlConnect.ConnectionString = connectionString;
@@ -56,7 +58,7 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             return true;
         }
 
-        public bool pushData(int ID, int UserID, string Username, string PlanName, long TotalIncome, long TotalExpenses, long SavingsGoal, string TimeOption, int TimeFrame, long FoodAllocation, long ElectricWaterBill, long EmergencyFund)
+        public bool pushData(int ID, int UserID, string Username, string PlanName, double TotalIncome, double TotalExpenses, double SavingsGoal, string TimeOption, int TimeFrame, double FoodAllocation, double ElectricWaterBill, double EmergencyFund)
         {
             string sqlQuery = "INSERT INTO FinancialPlans VALUES(@ID, @UserID, @Username, @Plan_Name, @Total_Income," +
                 "@Total_Expenses, @Savings_Goal, @Time_Option, @Time_Frame, @FoodAllocation, @ElectricWater_Bill, @Emergency_Fund)";
@@ -80,37 +82,37 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             return true;
         }
 
-        public void getDatafromDatabase()
+        public void getDatafromDatabase(int PlanID)
         {
             sqlConnect = new SqlConnection(connectionString);
             string sqlQuerry = "SELECT ID, Username, Plan_Name, Total_Income, Total_Expenses, Savings_Goal, " +
-                "Time_Option, Time_Frame, FoodAllocation, ElectricWater_Bill, Emergency_Fund FROM FinancialPlans WHERE UserID = @UserID";
+                "Time_Option, Time_Frame, FoodAllocation, ElectricWater_Bill, Emergency_Fund FROM FinancialPlans WHERE ID = @PlanID";
 
             sqlConnect.Open();
 
             sqlCommand = new SqlCommand(sqlQuerry, sqlConnect);
-            sqlCommand.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+            sqlCommand.Parameters.Add("@PlanID", SqlDbType.Int).Value = PlanID;
             SqlDataReader reader = sqlCommand.ExecuteReader();
             if (reader.Read())
             {
                 ID = reader.GetInt32(0);
-                UserID = reader.GetInt32(1);
-                Username = reader.GetString(2);
-                PlanName = reader.GetString(3);
-                TotalIncome = reader.GetInt64(4);
-                TotalExpenses = reader.GetInt64(5);
-                SavingsGoal = reader.GetInt64(6);
-                TimeOption = reader.GetString(7);
-                TimeFrame = reader.GetInt32(8);
-                FoodAllocation = reader.GetInt64(9);
-                ElectricWaterBill = reader.GetInt64(10);
-                EmergencyFund = reader.GetInt64(11);
+                Username = reader.GetString(1);
+                PlanName = reader.GetString(2);
+                TotalIncome = reader.GetInt64(3);
+                TotalExpenses = reader.GetInt64(4);
+                SavingsGoal = reader.GetInt64(5);
+                TimeOption = reader.GetString(6);
+                TimeFrame = Convert.ToInt32(reader.GetInt64(7));
+                FoodAllocation = reader.GetInt64(8);
+                ElectricWaterBill = reader.GetInt64(9);
+                EmergencyFund = reader.GetInt64(10);
             }
 
             sqlConnect.Close();
         }
 
-        public void getCurrentID()
+
+        public void getCurrentID() //not used
         {
             LoginForm loginForm = new LoginForm();
             sqlConnect = new SqlConnection(connectionString);
@@ -132,7 +134,6 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
         }
 
 
-
         //set FINANCIAL PLAN ID++
         public void setID()
         {
@@ -150,17 +151,133 @@ namespace Group2MiniSystem_FinancialPlanner.FinancialPlanner
             sqlConnect.Close();
         }
 
-        //get FINANCIAL PLAN ID
         public int getID()//working
         {
             setID();
             return LatestID;
         }
 
-        //get current Logged in Username
-        
+        public void setPlanName()
+        {
+            sqlConnect = new SqlConnection(connectionString);
+            string sqlQuerry = "SELECT Plan_Name FROM FinancialPlans WHERE UserID = @UserID";
 
-        //return logged in Username
-        
+            sqlConnect.Open();
+
+            sqlCommand = new SqlCommand(sqlQuerry, sqlConnect);
+            sqlCommand.Parameters.Add("@UserID", SqlDbType.Int).Value = loginHandler.getcurrentID();
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            while (reader.Read())
+            {
+                PlanNameBank.Add(reader.GetString(0));
+            }
+
+            sqlConnect.Close();
+        }
+
+        public void setPlanID(string PlanName)
+        {
+            sqlConnect = new SqlConnection(connectionString);
+            string sqlQuerry = "SELECT ID FROM FinancialPlans WHERE Plan_Name = @PlanName";
+
+            sqlConnect.Open();
+
+            sqlCommand = new SqlCommand(sqlQuerry, sqlConnect);
+            sqlCommand.Parameters.Add("@PlanName", SqlDbType.VarChar).Value = PlanName;
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            while (reader.Read())
+            {
+                PlanID = reader.GetInt32(0);
+            }
+
+            sqlConnect.Close();
+        }
+
+        public void setSelectedPlanID(int PlanID) //continue here
+        {
+            sqlConnect = new SqlConnection(connectionString);
+            string sqlQuerry = "SELECT ID FROM FinancialPlans WHERE UserID = @UserID";
+
+            sqlConnect.Open();
+
+            sqlCommand = new SqlCommand(sqlQuerry, sqlConnect);
+            sqlCommand.Parameters.Add("@UserID", SqlDbType.Int).Value = PlanID;
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            while (reader.Read())
+            {
+                SelectedPlanID = reader.GetInt32(0);
+            }
+
+            sqlConnect.Close();
+        }
+
+        public int getPlanID(string PlanName)
+        {
+            setPlanID(PlanName);
+            return PlanID;
+        }
+
+        public int getSelectedPlanID(int PlanID)
+        {
+            setSelectedPlanID(PlanID);
+            return PlanID;
+        }
+
+
+        public List<string> getPlanNames()
+        {
+            PlanNameBank.Clear();
+            setPlanName();
+            return PlanNameBank;
+        }
+
+        public int getTimeFrame(int planID)
+        {
+            getDatafromDatabase(planID);
+            return TimeFrame;
+        }
+
+        public double getTotalIncome(int planID)
+        {
+            getDatafromDatabase(planID);
+            return TotalIncome;
+        }
+
+        public double getTotalExpenses(int planID)
+        {
+            getDatafromDatabase(planID);
+            return TotalExpenses;
+        }
+
+        public double getSavingsGoal(int planID)
+        {
+            getDatafromDatabase(planID);
+            return SavingsGoal;
+        }
+
+        public double getFoodAllocation(int planID)
+        {
+            getDatafromDatabase(planID);
+            return FoodAllocation;
+        }
+
+        public double getElectricWaterBill(int planID)
+        {
+            getDatafromDatabase(planID);
+            return ElectricWaterBill;
+        }
+
+        public double getEmergencyFund(int planID)
+        {
+            getDatafromDatabase(planID);
+            return EmergencyFund;
+        }
+
+        public string getTimeOption(int planID)
+        {
+            getDatafromDatabase(planID);
+            return TimeOption;
+        }
+
     }
 }

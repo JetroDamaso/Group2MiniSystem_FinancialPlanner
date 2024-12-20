@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegisterForm));
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
@@ -40,11 +41,12 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = SystemColors.Highlight;
-            label5.Location = new Point(115, 119);
+            label5.BackColor = Color.Transparent;
+            label5.Font = new Font("Courier New", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.Transparent;
+            label5.Location = new Point(272, 178);
             label5.Name = "label5";
-            label5.Size = new Size(76, 15);
+            label5.Size = new Size(98, 14);
             label5.TabIndex = 15;
             label5.Text = "back to login";
             label5.Click += label5_Click;
@@ -52,40 +54,47 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(15, 89);
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Courier New", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Transparent;
+            label4.Location = new Point(200, 110);
             label4.Name = "label4";
-            label4.Size = new Size(60, 15);
+            label4.Size = new Size(70, 14);
             label4.TabIndex = 14;
             label4.Text = "Password:";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(12, 60);
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Courier New", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.Transparent;
+            label3.Location = new Point(202, 71);
             label3.Name = "label3";
-            label3.Size = new Size(63, 15);
+            label3.Size = new Size(70, 14);
             label3.TabIndex = 13;
             label3.Text = "Username:";
             // 
             // textBoxPassword
             // 
-            textBoxPassword.Location = new Point(81, 86);
+            textBoxPassword.Location = new Point(202, 123);
             textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.Size = new Size(191, 23);
+            textBoxPassword.Size = new Size(232, 23);
             textBoxPassword.TabIndex = 12;
             // 
             // textBoxUsername
             // 
-            textBoxUsername.Location = new Point(81, 57);
+            textBoxUsername.Location = new Point(203, 85);
             textBoxUsername.Name = "textBoxUsername";
-            textBoxUsername.Size = new Size(191, 23);
+            textBoxUsername.Size = new Size(232, 23);
             textBoxUsername.TabIndex = 11;
             // 
             // buttonRegister
             // 
-            buttonRegister.Location = new Point(197, 115);
+            buttonRegister.Font = new Font("Courier New", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonRegister.Location = new Point(283, 149);
             buttonRegister.Name = "buttonRegister";
-            buttonRegister.Size = new Size(75, 23);
+            buttonRegister.Size = new Size(74, 22);
             buttonRegister.TabIndex = 10;
             buttonRegister.Text = "Register";
             buttonRegister.UseVisualStyleBackColor = true;
@@ -94,8 +103,10 @@
             // label2
             // 
             label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(12, 9);
+            label2.ForeColor = Color.Transparent;
+            label2.Location = new Point(206, 32);
             label2.Name = "label2";
             label2.Size = new Size(209, 32);
             label2.TabIndex = 9;
@@ -105,7 +116,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(280, 148);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(635, 263);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
